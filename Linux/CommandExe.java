@@ -1,30 +1,51 @@
+//package ru.kpfu.itis.Sort;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.ProcessBuilder.Redirect;
+import java.util.Scanner;
 
 class CommandExe{
+	static int i = 0;
 	private CommandExe(){
 		//This class doesn't need an instance
 	}
-	public static exe(String command, String directory){
+	
+	public static void exeCp(String file, String dir){
 		try{
-			ProcessBuilder builder = new ProcessBuilder( "/bin/bash", "-c", command);            
-	        builder.directory(new File(directory));
-	        File log = new File("log");
-	        builder.redirectErrorStream(true);
-	        builder.redirectOutput(Redirect.appendTo(log));
-	        Process process = builder.start();
+			ProcessBuilder builder = new ProcessBuilder( "bash", "-c", "cp " + dir + "/" + file + " " + dir + "/SortedFiles" + i);            
+			builder.directory(new File("/bin"));
+			File log = new File(dir + "/log.txt");
+			builder.redirectErrorStream(true);
+			builder.redirectOutput(Redirect.appendTo(log));
+			Process process = builder.start();
+			int exitValue = process.waitFor();
+			System.out.println(exitValue);
+		}catch (Exception e) {
+			System.out.println(e);//TODO description
+		}
+	}
 
-	        int exitValue = process.waitFor();
-	        if (exitValue != 0) {
-	        	System.out.println("Some think wrong , please take care about command or directory\nYou can chek 'log' File");
-	        }
-	    } catch (IOException e) {
-	    	System.out.println("NO such directory");
-        } catch (InterruptedException e) {
-        	System.out.println(e);
-        }
-    }
+	public static void exeMkdir(String dir){
+		while(true){
+			try{
+				ProcessBuilder builder = new ProcessBuilder( "bash", "-c", "mkdir " + dir + "/SortedFiles" + i);            
+				builder.directory(new File("/bin"));
+				File log = new File(dir + "/log.txt");
+				builder.redirectErrorStream(true);
+				builder.redirectOutput(Redirect.appendTo(log));
+				Process process = builder.start();
+				int exitValue = process.waitFor();
+				System.out.println(exitValue);
+				if (exitValue == 0) {
+					break;
+				}
+				i++;
+			}catch (Exception e) {
+				System.out.println(e);//TODO description
+				break;
+			}
+		}
+	}
 }
