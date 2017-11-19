@@ -1,4 +1,4 @@
-//package ru.kpfu.itis.Sort;
+package ru.kpfu.itis.Sort;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ class CommandExe{
 	
 	public static void exeCp(String file, String dir){
 		try{
-			ProcessBuilder builder = new ProcessBuilder( "bash", "-c", "cp " + dir + "/" + file + " " + dir + "/SortedFiles" + i);            
+			ProcessBuilder builder = new ProcessBuilder("bash", "-c", "cp " + dir + "/" + file + " " + dir + "/SortedFiles" + i);            
 			builder.directory(new File("/bin"));
 			File log = new File(dir + "/log.txt");
 			builder.redirectErrorStream(true);

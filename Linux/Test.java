@@ -1,5 +1,7 @@
-//package ru.kpfu.itis.Sort;
-//import ru.kpfu.itis.Sort.CommandExe;
+package ru.kpfu.itis.Sort;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import ru.kpfu.itis.Sort.CommandExe;
 import java.io.File;
 import javax.swing.JOptionPane;
 //import java.util.ArrayList;
@@ -19,20 +21,25 @@ public class Test{
         //----------------------------------------------
         String shedule = JOptionPane.showInputDialog("Input shedule for sorting");
         CommandExe.exeMkdir(dir);
-        //check(shedule, files, dir);
+        check(shedule, files, dir);
     }
 
     public static void check(String shedule, String[] files, String dir){
-        for (int i = 0, count = 0; i < files.length - 1; i++) {
-            String[] temp = files[i].split(".");
-            System.out.println(temp.length);
-            temp[1] = "." + temp[1];
-            if (temp[0] == shedule || temp[1] == shedule) {
-                CommandExe.exeCp(files[i], dir);
-                count++;
-            }
-            JOptionPane.showMessageDialog(null, "All is done, amount of sorted files = " + count, "Service", JOptionPane.PLAIN_MESSAGE);
+        int count = 0;
+        if (shedule.charAt(0) == '.') {
+            shedule = ".+\\" + shedule;
+        }else{
+            shedule = shedule + "+.";
         }
-
+        for (int i = 0; i < files.length - 1; i++) {
+            Pattern p = Pattern.compile(shedule);
+            Matcher m = p.matcher(files[i]);
+            System.out.println(shedule);
+            if (m.matches()) {
+                CommandExe.exeCp(files[i], dir);
+                count++;        
+            }
+        }
+        JOptionPane.showMessageDialog(null, "All is done, amount of sorted files = " + count, "Service", JOptionPane.PLAIN_MESSAGE);
     }
 }
