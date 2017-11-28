@@ -1,0 +1,3 @@
+class InputWindowClosedException extends Exception {
+
+}
